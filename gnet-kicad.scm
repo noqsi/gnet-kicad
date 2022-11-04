@@ -23,47 +23,22 @@
 	     (ice-9 pretty-print))
 
 	     
-; A KiCad netlist is just a long S-expression, 
-; so construct it, output it, and we're done ;-)	     
+; A KiCad netlist looks like a long S-expression. 
+; However, it seems that the first line must be literally '(export (version "E")'
+; So, handle the subexpressions as S-expressions, but
+; bracket them with literal strings	     
 
 (define (kicad output-filename)
-	(pretty-print (list
-			'export
-			(version)
-			(design)
-			(components)
-			(nets)
-		)
-	)
-
+	(format #t "~A\n" "(export (version \"E\")")
+	(pretty-print (components))
+	(pretty-print (nets))
+	(format #t "~A\n" ")")
 )
 
 ; What's version "E"? Who knows...
 
 (define (version) (list 'version "E"))
 
-; design is pure boilerplate for now
-
-(define (design) '(design
-    (source "C:\\Users\\fjlar\\OneDrive\\Documents\\KiCad_proj\\Test2\\Test2\\Test2.kicad_sch")
-    (date "11/2/2022 9:38:46 PM")
-    (tool "Eeschema (6.0.4)")
-    (sheet (number "1") (name "/") (tstamps "/")
-      (title_block
-        (title)
-        (company)
-        (rev)
-        (date)
-        (source "Test2.kicad_sch")
-        (comment (number "1") (value ""))
-        (comment (number "2") (value ""))
-        (comment (number "3") (value ""))
-        (comment (number "4") (value ""))
-        (comment (number "5") (value ""))
-        (comment (number "6") (value ""))
-        (comment (number "7") (value ""))
-        (comment (number "8") (value ""))
-        (comment (number "9") (value ""))))))
 
 (define (components)
 	(cons
