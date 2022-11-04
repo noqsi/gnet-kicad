@@ -89,15 +89,13 @@
 
 (define (make-name n) (list 'name n))
 
-; For now, give all connection the "passive" type
-; Leave out pinfunction, it seems to be optional
+; For now, leave out pinfunction, it seems to be optional
 
 (define (make-node connection)
 	(list
 		'node
 		(list 'ref (car connection))
 		(list 'pin (cdr connection))
-		'(pintype "passive")
 	)
 )
 		
